@@ -18,6 +18,7 @@ import { beritaList } from "@/data/berita";
 import { galeri } from "@/data/galeri";
 import { sekolah } from "@/data/sekolah";
 
+
 // Daftar Kampus 
 const kampus = [
   "Universitas Indonesia (UI)", "Universitas Gadjah Mada (UGM)", "Institut Teknologi Bandung (ITB)", 

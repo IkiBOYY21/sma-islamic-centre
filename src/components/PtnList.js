@@ -1,0 +1,1 @@
+export default function PtnList() { return <div>PTN</div>; }

@@ -1,4 +1,4 @@
-import PageHeading from "@/components/PageHeading";
+import PageHeading from "@/components/PageHeader";
 import Reveal from "@/components/Reveal";
 import Tilt from "@/components/Tilt";
 import { sekolah } from "@/data/sekolah";
