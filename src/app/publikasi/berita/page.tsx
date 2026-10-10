@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import PageHeader from "@/components/PageHeader";
+import PageHeader from "@/components/PageHeading";
 import { beritaData, formatTanggal } from "@/lib/data/berita";
 
 export const metadata: Metadata = { title: "Berita" };

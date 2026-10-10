@@ -1,4 +1,4 @@
-import PageHeading from "@/components/PageHeader";
+import PageHeading from "@/components/PageHeading";
 import Button from "@/components/Button";
 import Reveal from "@/components/Reveal";
 import { sekolah } from "@/data/sekolah";

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import PageHeader from "@/components/PageHeader";
+import PageHeader from "@/components/PageHeading";
 import { nav } from "@/lib/site";
 
 export const dynamicParams = false;

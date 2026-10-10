@@ -1,4 +1,4 @@
-import PageHeading from "@/components/PageHeader";
+import PageHeading from "@/components/PageHeading";
 import BeritaExplorer from "@/components/BeritaExplorer";
 import { beritaList } from "@/data/berita";
 

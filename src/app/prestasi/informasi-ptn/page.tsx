@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import PageHeader from "@/components/PageHeader";
+import PageHeader from "@/components/PageHeading";
 import PtnList from "@/components/PtnList";
 import { ptnData } from "@/lib/data/ptn";
 

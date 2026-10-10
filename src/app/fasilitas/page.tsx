@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import PageHeader from "@/components/PageHeader";
+import PageHeading from "@/components/PageHeading";
 
 export const metadata: Metadata = { title: "Fasilitas" };
 
@@ -16,7 +16,7 @@ const fasilitas = [
 export default function FasilitasPage() {
   return (
     <>
-      <PageHeader
+      <PageHeading
         title="Fasilitas"
         description="Sarana yang mendukung kegiatan belajar dan pengembangan diri siswa."
       />
