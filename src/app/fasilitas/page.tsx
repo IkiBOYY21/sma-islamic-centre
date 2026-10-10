@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import PageHeading from "@/components/PageHeading";
+import PageHeading from "@/components/PageHeader";
 
 export const metadata: Metadata = { title: "Fasilitas" };
 
@@ -17,9 +17,10 @@ export default function FasilitasPage() {
   return (
     <>
       <PageHeading
-        title="Fasilitas"
-        description="Sarana yang mendukung kegiatan belajar dan pengembangan diri siswa."
-      />
+  label="Sarana & Prasarana"
+  judul="Fasilitas"
+  deskripsi="Sarana yang mendukung kegiatan belajar dan pengembangan diri siswa."
+/>
       <ul className="mx-auto grid max-w-6xl gap-4 px-4 py-12 sm:grid-cols-2 lg:grid-cols-3">
         {fasilitas.map((f) => (
           <li key={f.nama} className="rounded-lg border border-brand-100 bg-white p-6">

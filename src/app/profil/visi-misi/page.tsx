@@ -1,12 +1,16 @@
 import type { Metadata } from "next";
-import PageHeader from "@/components/PageHeading";
+import PageHeader from "@/components/PageHeader";
 
 export const metadata: Metadata = { title: "Visi & Misi" };
 
 export default function VisiMisiPage() {
   return (
     <>
-      <PageHeader section="Profil" title="Visi & Misi" />
+      <PageHeader
+  label="Profil"
+  judul="Visi & Misi"
+  deskripsi="Mengenal visi dan misi SMA Islamic Centre Tangerang sebagai pedoman dalam mewujudkan pendidikan yang berkualitas."
+/>
       <div className="mx-auto max-w-3xl space-y-10 px-4 py-12">
         <section>
           <h2 className="font-serif text-2xl font-semibold">Visi</h2>

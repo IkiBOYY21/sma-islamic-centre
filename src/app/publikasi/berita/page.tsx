@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import PageHeader from "@/components/PageHeading";
+import PageHeader from "@/components/PageHeader";
 import { beritaData, formatTanggal } from "@/lib/data/berita";
 
 export const metadata: Metadata = { title: "Berita" };
@@ -7,7 +7,7 @@ export const metadata: Metadata = { title: "Berita" };
 export default function BeritaPage() {
   return (
     <>
-      <PageHeader section="Publikasi" title="Berita" description="Kabar terbaru dari SMA Islamic Centre." />
+      <PageHeader label="Publikasi" judul="Berita" deskripsi="Kabar terbaru dari SMA Islamic Centre." />
       <ul className="mx-auto max-w-3xl space-y-4 px-4 py-12">
         {beritaData.map((b) => (
           <li key={b.slug} className="rounded-lg border border-brand-100 bg-white p-6">

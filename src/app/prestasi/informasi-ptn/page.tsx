@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import PageHeader from "@/components/PageHeading";
+import PageHeader from "@/components/PageHeader";
 import PtnList from "@/components/PtnList";
 import { ptnData } from "@/lib/data/ptn";
 
@@ -13,9 +13,9 @@ export default function InformasiPtnPage() {
   return (
     <>
       <PageHeader
-        section="Prestasi"
-        title="Informasi PTN"
-        description="Daftar siswa yang diterima di perguruan tinggi, lengkap dengan program studi, jalur, dan periode."
+        label="Prestasi"
+        judul="Informasi PTN"
+        deskripsi="Daftar siswa yang diterima di perguruan tinggi, lengkap dengan program studi, jalur, dan periode."
       />
       <div className="mx-auto max-w-6xl px-4 py-10">
         <PtnList data={ptnData} />
