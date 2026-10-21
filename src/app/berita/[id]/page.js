@@ -1,38 +1,51 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import Reveal from "@/components/Reveal";
-import { beritaList, formatTanggal } from "@/data/berita";
+// Pastikan path formatTanggal sesuai dengan file Anda
+import { formatTanggal } from "@/data/berita"; 
 
-export function generateStaticParams() {
-  return beritaList
-    .filter((berita) => berita.id !== null && berita.id !== undefined)
-    .map((berita) => ({
-      id: String(berita.id),
-    }));
-}
+export default function DetailBeritaPage() {
+  const params = useParams();
+  const [berita, setBerita] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-export async function generateMetadata({ params }) {
-  const { id } = await params;
-  const berita = beritaList.find((item) => String(item.id) === String(id));
+  useEffect(() => {
+    // 1. Coba ambil data dari localStorage (yang dibuat di Admin)
+    const savedBerita = localStorage.getItem("beritaSekolah");
+    
+    if (savedBerita) {
+      const parsedBerita = JSON.parse(savedBerita);
+      const foundBerita = parsedBerita.find((item) => String(item.id) === String(params.id));
+      setBerita(foundBerita);
+    }
+    
+    setLoading(false);
+  }, [params.id]);
 
-  return {
-    title: berita ? berita.judul : "Berita tidak ditemukan",
-  };
-}
-
-export default async function DetailBeritaPage({ params }) {
-  const { id } = await params;
-  const berita = beritaList.find((item) => String(item.id) === String(id));
-
-  if (!berita) {
-    notFound();
+  if (loading) {
+    return <div className="pt-40 text-center">Memuat berita...</div>;
   }
 
+  if (!berita) {
+    return (
+      <div className="flex flex-col items-center justify-center pt-40 pb-20">
+        <h1 className="text-2xl font-bold">Berita tidak ditemukan</h1>
+        <Link href="/berita" className="mt-4 text-brand-900 hover:underline">← Kembali ke daftar berita</Link>
+      </div>
+    );
+  }
+
+  // Menangani format paragraf apakah dari string atau array (sesuai kode asli Anda)
   const paragrafBerita = Array.isArray(berita.konten)
     ? berita.konten
     : Array.isArray(berita.isi)
       ? berita.isi
-      : [];
+      : typeof berita.konten === "string" 
+        ? [berita.konten] 
+        : ["Konten berita belum tersedia."];
 
   return (
     <article className="mx-auto max-w-3xl px-4 pb-4 pt-32 md:pt-40">
@@ -41,7 +54,7 @@ export default async function DetailBeritaPage({ params }) {
       </Link>
 
       <p className="mt-6 inline-block animate-fade-up rounded-full border border-black/10 bg-white px-3 py-1 text-xs">
-        {formatTanggal(berita.tanggal)}
+        {berita.tanggal ? formatTanggal(berita.tanggal) : "Tanggal tidak diketahui"}
       </p>
 
       <h1
@@ -51,13 +64,15 @@ export default async function DetailBeritaPage({ params }) {
         {berita.judul}
       </h1>
 
-      <Reveal>
-        <img
-          src={berita.gambar}
-          alt={berita.judul}
-          className="mt-10 aspect-[16/9] w-full rounded-3xl object-cover"
-        />
-      </Reveal>
+      {berita.gambar && (
+        <Reveal>
+          <img
+            src={berita.gambar}
+            alt={berita.judul}
+            className="mt-10 aspect-[16/9] w-full rounded-3xl object-cover"
+          />
+        </Reveal>
+      )}
 
       <Reveal className="mt-4 space-y-5 rounded-3xl border border-black/10 bg-white p-6 text-lg leading-relaxed text-gray-800 md:p-10">
         {paragrafBerita.map((paragraf, index) => (

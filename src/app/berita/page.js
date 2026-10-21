@@ -1,85 +1,53 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import Reveal from "@/components/Reveal";
-import { beritaList, formatTanggal } from "@/data/berita";
 
-export function generateStaticParams() {
-  return beritaList
-    .filter(
-      (berita) =>
-        berita.id !== null &&
-        berita.id !== undefined
-    )
-    .map((berita) => ({
-      id: `${berita.id}`,
-    }));
-}
+export default function BeritaPage() {
+  const [berita, setBerita] = useState([]);
 
-export async function generateMetadata({ params }) {
-  const { id } = await params;
-
-  const berita = beritaList.find(
-    (item) => String(item.id) === String(id)
-  );
-
-  return {
-    title: berita
-      ? berita.judul
-      : "Berita tidak ditemukan",
-  };
-}
-
-export default async function DetailBeritaPage({ params }) {
-  const { id } = await params;
-
-  const berita = beritaList.find(
-    (item) => String(item.id) === String(id)
-  );
-
-  if (!berita) {
-    notFound();
-  }
+  useEffect(() => {
+    // Ambil data dari localStorage yang disimpan admin
+    const savedBerita = localStorage.getItem("beritaSekolah");
+    if (savedBerita) {
+      setBerita(JSON.parse(savedBerita));
+    }
+  }, []);
 
   return (
-    <article className="mx-auto max-w-3xl px-4 pb-4 pt-32 md:pt-40">
-      <Link
-        href="/berita"
-        className="text-sm text-gray-500 hover:text-ink"
-      >
-        ← Kembali ke Berita
-      </Link>
-
-      <p className="mt-6 inline-block animate-fade-up rounded-full border border-black/10 bg-white px-3 py-1 text-xs">
-        {formatTanggal(berita.tanggal)}
-      </p>
-
-      <h1
-        className="mt-4 animate-fade-up font-display text-5xl leading-[0.98] md:text-7xl"
-        style={{ animationDelay: "120ms" }}
-      >
-        {berita.judul}
-      </h1>
-
+    <main className="mx-auto max-w-5xl px-4 pt-32 pb-20 md:pt-40">
       <Reveal>
-        <img
-          src={berita.gambar}
-          alt={berita.judul}
-          className="mt-10 aspect-[16/9] w-full rounded-3xl object-cover"
-        />
+        <h1 className="mb-8 font-display text-4xl font-bold md:text-6xl">Berita & Pengumuman</h1>
       </Reveal>
-
-      <Reveal className="mt-4 space-y-5 rounded-3xl border border-black/10 bg-white p-6 text-lg leading-relaxed text-gray-800 md:p-10">
-        {(berita.konten ?? []).map((paragraf, index) => (
-          <p key={index}>{paragraf}</p>
-        ))}
-      </Reveal>
-
-      <Link
-        href="/berita"
-        className="mt-8 inline-block rounded-full bg-brand-900 px-6 py-3 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-brand-700"
-      >
-        Kembali ke Berita
-      </Link>
-    </article>
+      
+      <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+        {berita.length === 0 ? (
+          <p className="col-span-full text-gray-500">Belum ada berita yang dipublikasikan.</p>
+        ) : (
+          berita.map((item) => (
+            <Reveal key={item.id} className="group flex flex-col overflow-hidden rounded-3xl border border-black/10 bg-white transition hover:shadow-lg">
+              <Link href={`/berita/${item.id}`} className="flex flex-1 flex-col">
+                <div className="relative aspect-[4/3] overflow-hidden bg-gray-100">
+                  {item.gambar ? (
+                    <img src={item.gambar} alt={item.judul} className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+                  ) : (
+                    <div className="flex h-full items-center justify-center text-gray-400">Tidak ada gambar</div>
+                  )}
+                  <div className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold backdrop-blur-sm">
+                    {item.kategori}
+                  </div>
+                </div>
+                <div className="flex flex-1 flex-col p-6">
+                  <span className="mb-2 text-sm text-gray-500">{item.tanggal}</span>
+                  <h3 className="font-display text-xl font-bold leading-snug text-gray-900 group-hover:text-brand-900">{item.judul}</h3>
+                  <div className="mt-auto pt-4 text-sm font-semibold text-brand-900">Baca selengkapnya →</div>
+                </div>
+              </Link>
+            </Reveal>
+          ))
+        )}
+      </div>
+    </main>
   );
 }
