@@ -1,38 +1,95 @@
-import PageHeading from "@/components/PageHeader";
-import Button from "@/components/Button";
-import Reveal from "@/components/Reveal";
-import { sekolah } from "@/data/sekolah";
+"use client";
 
-export const metadata = { title: "Kontak" };
+import { useState, useEffect } from "react";
+import Reveal from "@/components/Reveal";
 
 export default function KontakPage() {
+  const [kontak, setKontak] = useState({
+    alamat: "Alamat default...",
+    telepon: "021-000000",
+    email: "info@sekolah.com",
+    instagram: ""
+  });
+
+  useEffect(() => {
+    const saved = localStorage.getItem("kontakSekolah");
+    if (saved) setKontak(JSON.parse(saved));
+  }, []);
+
   return (
-    <>
-      <PageHeading label="Kontak" judul="Hubungi kami" deskripsi="Kunjungi sekolah atau hubungi kami lewat telepon dan WhatsApp." />
-      <div className="mx-auto grid max-w-6xl gap-4 px-3 pb-4 sm:px-4 md:grid-cols-[1fr_1.2fr]">
-        <Reveal className="space-y-6 rounded-3xl border border-black/10 bg-white p-6 md:p-9">
+    <main className="mx-auto max-w-6xl px-4 pt-32 pb-20 md:pt-40">
+      <Reveal>
+        <div className="mb-12 text-center">
+          <p className="mb-2 text-sm font-semibold tracking-widest text-brand-900 uppercase">Tanya Kami</p>
+          <h1 className="font-display text-4xl font-bold md:text-6xl text-gray-900">Hubungi Kami</h1>
+        </div>
+      </Reveal>
+
+      <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
+        {/* Kolom Informasi dari Admin */}
+        <Reveal className="flex flex-col justify-center space-y-8 rounded-3xl bg-brand-900 p-8 text-white shadow-xl md:p-12">
           <div>
-            <h2 className="text-xs font-semibold text-aksen">Alamat</h2>
-            <p className="mt-1">{sekolah.alamat}</p>
+            <h2 className="font-display text-3xl font-bold">Informasi Kontak</h2>
+            <p className="mt-2 text-brand-100">Silakan hubungi kami melalui jalur di bawah ini.</p>
           </div>
-          <div>
-            <h2 className="text-xs font-semibold text-aksen">Telepon</h2>
-            <p className="mt-1">{sekolah.telepon}</p>
-          </div>
-          <div>
-            <h2 className="text-xs font-semibold text-aksen">Jam operasional</h2>
-            <p className="mt-1">{sekolah.jam}</p>
-          </div>
-          <div className="flex flex-wrap gap-4 pt-2">
-            <Button href={sekolah.whatsapp} external variant="aksen">Chat WhatsApp</Button>
-            <Button href={sekolah.spmb} external>Daftar SPMB</Button>
+          
+          <div className="space-y-6">
+            <div className="flex items-start gap-4">
+              <div className="mt-1 h-10 w-10 flex-shrink-0 rounded-full bg-white/20 flex items-center justify-center">📍</div>
+              <div>
+                <h3 className="text-sm font-semibold text-brand-100 uppercase tracking-wider">Alamat Lengkap</h3>
+                <p className="mt-1 text-lg font-medium whitespace-pre-wrap">{kontak.alamat}</p>
+              </div>
+            </div>
+            
+            <div className="flex items-start gap-4">
+              <div className="mt-1 h-10 w-10 flex-shrink-0 rounded-full bg-white/20 flex items-center justify-center">📞</div>
+              <div>
+                <h3 className="text-sm font-semibold text-brand-100 uppercase tracking-wider">Telepon</h3>
+                <p className="mt-1 text-lg font-medium">{kontak.telepon}</p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-4">
+              <div className="mt-1 h-10 w-10 flex-shrink-0 rounded-full bg-white/20 flex items-center justify-center">✉️</div>
+              <div>
+                <h3 className="text-sm font-semibold text-brand-100 uppercase tracking-wider">Email</h3>
+                <p className="mt-1 text-lg font-medium">{kontak.email}</p>
+              </div>
+            </div>
+
+            {kontak.instagram && (
+              <div className="flex items-start gap-4 pt-4 border-t border-white/20">
+                <a href={kontak.instagram} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 font-bold text-brand-900 transition hover:bg-gray-100 hover:scale-105">
+                  Kunjungi Instagram Kami →
+                </a>
+              </div>
+            )}
           </div>
         </Reveal>
 
-        <Reveal delay={150} className="min-h-80 overflow-hidden rounded-3xl border border-black/10 bg-white">
-          <iframe src={sekolah.peta} title="Peta lokasi SMA Islamic Centre" className="h-full min-h-80 w-full border-0" loading="lazy" />
+        {/* Kolom Form Kirim Pesan (Mockup UI Saja) */}
+        <Reveal className="rounded-3xl border border-black/5 bg-white p-8 shadow-xl md:p-12">
+          <h2 className="mb-6 font-display text-2xl font-bold text-gray-900">Kirim Pesan Langsung</h2>
+          <form className="space-y-5" onSubmit={(e) => { e.preventDefault(); alert("Pesan terkirim (Mockup)"); }}>
+            <div>
+              <label className="mb-1 block text-sm font-semibold text-gray-700">Nama Lengkap</label>
+              <input type="text" className="w-full rounded-xl border border-gray-300 bg-gray-50 px-4 py-3 outline-none transition focus:border-brand-900 focus:bg-white" placeholder="Masukkan nama..." required />
+            </div>
+            <div>
+              <label className="mb-1 block text-sm font-semibold text-gray-700">Alamat Email</label>
+              <input type="email" className="w-full rounded-xl border border-gray-300 bg-gray-50 px-4 py-3 outline-none transition focus:border-brand-900 focus:bg-white" placeholder="email@contoh.com" required />
+            </div>
+            <div>
+              <label className="mb-1 block text-sm font-semibold text-gray-700">Isi Pesan</label>
+              <textarea rows="4" className="w-full rounded-xl border border-gray-300 bg-gray-50 px-4 py-3 outline-none transition focus:border-brand-900 focus:bg-white" placeholder="Tuliskan pertanyaan Anda di sini..." required></textarea>
+            </div>
+            <button className="w-full rounded-full bg-brand-900 py-4 font-bold text-white transition-transform hover:-translate-y-1 hover:shadow-lg">
+              Kirim Pesan Sekarang
+            </button>
+          </form>
         </Reveal>
       </div>
-    </>
+    </main>
   );
 }
